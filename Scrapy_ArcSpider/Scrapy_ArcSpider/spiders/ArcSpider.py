@@ -15,9 +15,7 @@ class ArcspiderSpider(CrawlSpider):
         if callback:
             cb_res = callback(response, **cb_kwargs) or ()
             cb_res = self.process_results(response, cb_res)
-            for request_or_item in iterate_spider_output(cb_res):
-                yield request_or_item
-
+            yield from iterate_spider_output(cb_res)
         if follow and self._follow_links:
             for request_or_item in self._requests_to_follow(response):
                 request_or_item.meta['start_url'] = response.meta['start_url']
@@ -45,7 +43,3 @@ class ArcspiderSpider(CrawlSpider):
                 'full_link': full_link,
                 'source': startURL,
                 }
-            else:
-                pass
-        else:
-            pass
